@@ -11,22 +11,22 @@
 
 /// \tag::hello_uart[]
 
-#define UART_ID uart0
+#define UART_0 uart0
 #define BAUD_RATE 115200
 
 // We are using pins 0 and 1, but see the GPIO function select table in the
 // datasheet for information on which other pins can be used.
-#define UART_TX_PIN 0
-#define UART_RX_PIN 1
+#define UART_0_TX_PIN 8
+#define UART_0_RX_PIN 9
 
 int main() {
     // Set up our UART with the required speed.
-    uart_init(UART_ID, BAUD_RATE);
+    uart_init(UART_0, BAUD_RATE);
 
     // Set the TX and RX pins by using the function select on the GPIO
     // Set datasheet for more information on function select
-    gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);
-    gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
+    gpio_set_function(UART_0_TX_PIN, GPIO_FUNC_UART);
+    gpio_set_function(UART_0_RX_PIN, GPIO_FUNC_UART);
 
     // Use some the various UART functions to send out data
     // In a default system, printf will also output via the default UART
