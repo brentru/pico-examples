@@ -61,7 +61,7 @@ int main() {
         // Read UART, write USB
         if (uart_is_readable(UART_ESP32)) {
             gpio_put(LED_PIN, 1);
-            uint8_t ch = uart_getc(UART_ESP32); // read from UART
+            int ch = uart_getc(UART_ESP32); // read from UART
             putchar(ch); // write to USB
             gpio_put(LED_PIN, 0);
         }
