@@ -20,6 +20,7 @@ int main() {
 
     // init STDIO over USB-CDC
     stdio_usb_init();
+    stdio_set_translate_crlf(&stdio_usb, false);
 
     // init UART0
     uart_init(UART_ESP32, BAUD_RATE);
@@ -47,23 +48,19 @@ int main() {
     sleep_ms(100);
     gpio_put(LED_PIN, 0);
 
-    //uart_puts(UART_ESP32, "starting bridge...\n");
-
     while (true) {
          // read USB, write UART
         int c = getchar_timeout_us(0);
         if (c != PICO_ERROR_TIMEOUT) {
             if (uart_is_writable(UART_ESP32)) {
-                uart_putc_raw(UART_ESP32, c);
+                uart_putc(UART_ESP32, c);
             }
         }
 
         // Read UART, write USB
         if (uart_is_readable(UART_ESP32)) {
-            gpio_put(LED_PIN, 1);
             int ch = uart_getc(UART_ESP32); // read from UART
             putchar(ch); // write to USB
-            gpio_put(LED_PIN, 0);
         }
     }
 
