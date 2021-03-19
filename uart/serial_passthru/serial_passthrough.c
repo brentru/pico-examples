@@ -45,8 +45,6 @@ int main() {
 
     gpio_put(ESP32_RST, 1);
     sleep_ms(100);
-    gpio_put(ESP32_RST, 0);
-    sleep_ms(100);
     gpio_put(LED_PIN, 0);
 
     //uart_puts(UART_ESP32, "starting bridge...\n");
