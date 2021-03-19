@@ -32,18 +32,18 @@ int main() {
     gpio_init(ESP32_CS);
     gpio_set_dir(ESP32_CS, GPIO_OUT);
     gpio_init(ESP32_RST);
-    gpio_set_dir(ESP32_RST, GPIO_OUT);
     gpio_init(ESP32_GPIO0);
     gpio_set_dir(ESP32_GPIO0, GPIO_OUT);
-
+    gpio_set_dir(ESP32_RST, GPIO_OUT);
     gpio_put(LED_PIN, 1);
+
     // manually put the ESP32 in upload mode
     gpio_put(ESP32_GPIO0, 0);
     gpio_put(ESP32_RST, 0);
     gpio_put(ESP32_CS, 0);
     sleep_ms(100);
     gpio_put(ESP32_RST, 1);
-    sleep_ms(500);
+    sleep_ms(100);
     gpio_put(LED_PIN, 0);
 
     uart_puts(UART_ESP32, "starting bridge...\n");
@@ -59,15 +59,12 @@ int main() {
         // Read UART, write USB
         if (uart_is_readable(UART_ESP32)) {
             gpio_put(LED_PIN, 1);
-            sleep_ms(1500);
+            sleep_ms(100);
             gpio_put(LED_PIN, 0);
             uint8_t ch = uart_getc(UART_ESP32); // read from UART
             putchar(ch); // write to USB
         }
-
     }
-
-
 
     return 0;
 }
