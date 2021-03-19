@@ -53,7 +53,7 @@ int main() {
 
     while (true) {
          // read USB, write UART
-        uint8_t c = getchar_timeout_us(0);
+        int c = getchar_timeout_us(0);
         if (c != PICO_ERROR_TIMEOUT) {
             if (uart_is_writable(UART_ESP32)) {
                 uart_putc_raw(UART_ESP32, c);
@@ -61,12 +61,12 @@ int main() {
         }
 
         // Read UART, write USB
-        gpio_put(LED_PIN, 1);
         if (uart_is_readable(UART_ESP32)) {
+            gpio_put(LED_PIN, 1);
             uint8_t ch = uart_getc(UART_ESP32); // read from UART
             putchar(ch); // write to USB
+            gpio_put(LED_PIN, 0);
         }
-        gpio_put(LED_PIN, 0);
     }
 
     return 0;
