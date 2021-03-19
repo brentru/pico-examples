@@ -10,7 +10,7 @@
 int main() {
     const uint LED_PIN = PICO_DEFAULT_LED_PIN;
     const uint ESP32_CS    = 13;
-    const uint ESP32_RST   = 15;
+    const uint ESP32_RST   = 16;
     const uint ESP32_GPIO0 = 9;
 
     // Status LED
