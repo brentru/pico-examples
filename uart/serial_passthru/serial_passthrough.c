@@ -18,16 +18,29 @@
 #include "pico/stdlib.h"
 #include "hardware/uart.h"
 
+// Define which Raspberry Pi RP2040 board you're using below:
+// Raspberry Pi Pico RP2040
+#define RP2040_PICO
+// Adafruit Feather RP2040
+// #define RP2040_FEATHER 
+
 #define BAUD_RATE 115200
 #define UART_ESP32 uart0
 #define UART_ESP32_TX_PIN 0
 #define UART_ESP32_RX_PIN 1
 
+#if defined RP2040_PICO
+    #define ESP32_CS    13 // Chip select pin
+    #define ESP32_RST   16 // Reset pin
+    #define ESP32_GPIO0  9 // GPIO0 pin
+#elif defined RP2040_FEATHER
+    #define ESP32_CS    13 // Chip select pin
+    #define ESP32_RST   12 // Reset pin
+    #define ESP32_GPIO0 10 // GPIO0 pin
+#endif
+
 int main() {
     const uint LED_PIN = PICO_DEFAULT_LED_PIN;
-    const uint ESP32_CS    = 13;
-    const uint ESP32_RST   = 16;
-    const uint ESP32_GPIO0 = 9;
 
     // init status LED
     gpio_init(LED_PIN);
