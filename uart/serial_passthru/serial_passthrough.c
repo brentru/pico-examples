@@ -40,7 +40,6 @@ int main() {
 
     // manually put the ESP32 in upload mode
     gpio_put(ESP32_GPIO0, 0);
-
     gpio_put(ESP32_RST, 0);
     sleep_ms(100);
 
@@ -49,18 +48,20 @@ int main() {
     gpio_put(LED_PIN, 0);
 
     while (true) {
-         // read USB, write UART
+
+        // read from USB
         int c = getchar_timeout_us(0);
         if (c != PICO_ERROR_TIMEOUT) {
-            if (uart_is_writable(UART_ESP32)) {
-                uart_putc(UART_ESP32, c);
-            }
+            // write to UART
+            uart_putc(UART_ESP32, c);
         }
 
-        // Read UART, write USB
+        // check UART buffer
         if (uart_is_readable(UART_ESP32)) {
-            int ch = uart_getc(UART_ESP32); // read from UART
-            putchar(ch); // write to USB
+            // read from UART
+            char ch = uart_getc(UART_ESP32);
+            // write to USB
+            printf("%c", ch);
         }
     }
 
