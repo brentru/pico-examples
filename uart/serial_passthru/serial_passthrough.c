@@ -1,3 +1,19 @@
+/*
+  RP2040-SerialESPPassthrough - Used for flashing ESP32 module
+  with the Raspberry Pi RP2040.
+  Copyright (c) 2018 Arduino SA. All rights reserved.
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/uart.h"
@@ -13,7 +29,7 @@ int main() {
     const uint ESP32_RST   = 16;
     const uint ESP32_GPIO0 = 9;
 
-    // Status LED
+    // init status LED
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
     gpio_put(LED_PIN, 1);
@@ -29,7 +45,7 @@ int main() {
     sleep_ms(100);
     gpio_put(LED_PIN, 0);
 
-
+    // init ESP32 module
     gpio_init(ESP32_CS);
     gpio_set_dir(ESP32_CS, GPIO_OUT);
     gpio_init(ESP32_RST);
@@ -56,7 +72,7 @@ int main() {
             uart_putc(UART_ESP32, c);
         }
 
-        // check UART buffer
+        // check if data is in UART RX buffer
         if (uart_is_readable(UART_ESP32)) {
             // read from UART
             char ch = uart_getc(UART_ESP32);
